@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>たんご帳＆クイズ｜バスケで学ぶ英語</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Poppins:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#F5F3EE; --card:#FFFFFF; --ink:#1B2B3A; --ink-soft:#4C5D6B; --ink-faint:#8FA0AC;
+    --orange:#E8622C; --orange-deep:#C74E1E; --navy:#12233A; --amber:#F2A83B;
+    --line:#E7E2D8; --green:#2E9E6B; --red:#D6473B;
+    --shadow:0 2px 4px rgba(27,43,58,.06), 0 10px 30px rgba(27,43,58,.08);
+    --maxw:640px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:var(--bg);color:var(--ink);font-family:"Noto Sans JP",-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 16px 80px;}
+
+  .top{background:var(--navy);color:#fff;padding:16px 0;margin-bottom:16px;position:relative;overflow:hidden;}
+  .top::after{content:"🏀";position:absolute;right:-8px;top:-12px;font-size:80px;opacity:.12;transform:rotate(-10deg);}
+  .top .inner{max-width:var(--maxw);margin:0 auto;padding:0 16px;position:relative;z-index:1;}
+  .top .eyebrow{font-family:"Poppins",sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);}
+  .top h1{font-family:"Baloo 2",sans-serif;font-weight:700;font-size:24px;margin:2px 0 0;}
+  .top a.back{color:#B9C6D1;font-size:12px;text-decoration:none;font-family:"Poppins",sans-serif;}
+
+  /* タブ */
+  .tabs{display:flex;gap:8px;margin-bottom:18px;}
+  .tab{flex:1;appearance:none;border:2px solid var(--line);background:var(--card);border-radius:12px;padding:12px;font-family:"Baloo 2",sans-serif;font-weight:700;font-size:16px;color:var(--ink-soft);cursor:pointer;}
+  .tab.active{background:var(--orange);border-color:var(--orange);color:#fff;}
+
+  .view{display:none;}
+  .view.active{display:block;}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--shadow);margin-bottom:14px;}
+
+  label{display:block;font-size:13px;color:var(--ink-soft);font-weight:500;margin:8px 0 4px;}
+  input[type=text]{width:100%;border:2px solid var(--line);border-radius:11px;padding:11px 13px;font-size:16px;font-family:inherit;color:var(--ink);}
+  input[type=text]:focus{outline:none;border-color:var(--orange);}
+  .btn{appearance:none;border:none;background:var(--orange);color:#fff;font-family:"Baloo 2",sans-serif;font-weight:700;font-size:16px;padding:12px 18px;border-radius:12px;cursor:pointer;width:100%;margin-top:12px;}
+  .btn:hover{background:var(--orange-deep);}
+  .btn.sub{background:var(--card);color:var(--orange);border:2px solid var(--orange);}
+  .btn.ghost{background:transparent;color:var(--ink-faint);border:none;font-size:13px;width:auto;padding:6px;margin:0;}
+
+  .count{font-family:"Baloo 2",sans-serif;font-weight:700;color:var(--navy);font-size:15px;margin:4px 2px 10px;display:flex;justify-content:space-between;align-items:center;}
+  .search{margin-bottom:10px;}
+
+  .word{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-bottom:8px;background:var(--card);}
+  .word .txt{flex:1;min-width:0;}
+  .word .en{font-family:"Poppins",sans-serif;font-weight:600;font-size:17px;color:var(--orange-deep);word-break:break-word;}
+  .word .ja{font-size:14px;color:var(--ink);}
+  .word .ex{font-size:12px;color:var(--ink-faint);font-style:italic;margin-top:2px;}
+  .del{appearance:none;border:none;background:#F3EEE5;color:var(--ink-faint);width:32px;height:32px;border-radius:9px;cursor:pointer;font-size:16px;flex-shrink:0;}
+  .del:hover{background:#FBEBE9;color:var(--red);}
+  .empty{text-align:center;color:var(--ink-faint);font-size:14px;padding:24px 10px;}
+
+  /* クイズ */
+  .quiz-start{text-align:center;padding:10px 0;}
+  .quiz-start .ball{font-size:46px;}
+  .quiz-start p{color:var(--ink-soft);font-size:14px;margin:6px 0 0;}
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow);}
+  .qprog{font-family:"Baloo 2",sans-serif;font-weight:700;color:var(--orange);font-size:14px;margin-bottom:8px;}
+  .qword{font-family:"Poppins",sans-serif;font-weight:600;font-size:30px;color:var(--navy);text-align:center;margin:6px 0 4px;word-break:break-word;}
+  .qask{text-align:center;color:var(--ink-soft);font-size:13px;margin-bottom:16px;}
+  .choice{display:block;width:100%;text-align:left;background:var(--bg);border:2px solid var(--line);border-radius:12px;padding:13px 15px;margin-bottom:9px;font-family:inherit;font-size:16px;cursor:pointer;color:var(--ink);}
+  .choice:hover:not(:disabled){border-color:var(--orange);}
+  .choice:disabled{cursor:default;}
+  .choice.correct{border-color:var(--green);background:#E9F7F0;color:#1c6b48;font-weight:700;}
+  .choice.wrong{border-color:var(--red);background:#FBEBE9;color:#a12c22;}
+  .qex{margin-top:10px;font-size:13px;color:var(--ink-soft);background:var(--bg);border-radius:10px;padding:10px 12px;display:none;}
+  .qex.show{display:block;}
+  .qnext{margin-top:12px;}
+  .result{text-align:center;padding:12px;}
+  .result .big{font-family:"Baloo 2",sans-serif;font-weight:700;font-size:40px;color:var(--orange);}
+  .result .msg{font-family:"Baloo 2",sans-serif;font-weight:700;font-size:18px;color:var(--navy);margin:4px 0 14px;}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="inner">
+    <div class="eyebrow">My Word Book</div>
+    <h1>たんご帳＆クイズ</h1>
+    <a class="back" href="index.html">← バスケ英語トップにもどる</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="tabs">
+    <button class="tab active" data-view="book">📒 たんご帳</button>
+    <button class="tab" data-view="quiz">✏️ クイズ</button>
+  </div>
+
+  <!-- たんご帳 -->
+  <section class="view active" id="view-book">
+    <div class="card">
+      <label>英語（たんご・じゅくご）</label>
+      <input type="text" id="inEn" placeholder="れい：win" autocomplete="off" />
+      <label>意味（日本語）</label>
+      <input type="text" id="inJa" placeholder="れい：勝つ" autocomplete="off" />
+      <label>例文（なくてもOK）</label>
+      <input type="text" id="inEx" placeholder="れい：Japan won the game." autocomplete="off" />
+      <button class="btn" id="addBtn">＋ たんご帳にくわえる</button>
+    </div>
+
+    <div class="count"><span id="count">0語</span><button class="btn ghost" id="clearBtn">ぜんぶ消す</button></div>
+    <input type="text" id="search" class="search" placeholder="🔍 さがす（英語・意味）" autocomplete="off" style="width:100%;border:2px solid var(--line);border-radius:11px;padding:10px 13px;font-size:15px;font-family:inherit;" />
+    <div id="list"></div>
+  </section>
+
+  <!-- クイズ -->
+  <section class="view" id="view-quiz">
+    <div id="quizArea"></div>
+  </section>
+</div>
+
+<script>
+/* ====== サーバー保存（みんな共通の1つ・合言葉なし） ====== */
+/* ▼ ここに、デプロイした hoops-english Worker のURLを入れる */
+const WORKER_URL = "https://hoops-english.g504-aniki-gera.workers.dev";
+
+let words = [];
+let saving = false;
+
+const $ = s => document.querySelector(s);
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function shuffle(a){ a=[...a]; for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+async function loadFromServer(){
+  try{
+    const r = await fetch(WORKER_URL + "/vocab", { cache:"no-store" });
+    words = r.ok ? await r.json() : [];
+    if(!Array.isArray(words)) words = [];
+  }catch(e){ words = []; }
+  renderList();
+}
+
+async function saveToServer(){
+  saving = true; updateSaveState();
+  try{
+    const r = await fetch(WORKER_URL + "/vocab", {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify(words),
+    });
+    if(!r.ok) throw new Error("save failed");
+  }catch(e){
+    alert("サーバーに ほぞんできませんでした。電波の いい場所で もう一度ためしてね。");
+  }finally{
+    saving = false; updateSaveState();
+  }
+}
+function updateSaveState(){
+  const c=$("#count");
+  if(c) c.textContent = words.length + "語" + (saving ? "（ほぞん中…）" : "");
+}
+
+/* ====== タブ ====== */
+document.querySelectorAll(".tab").forEach(t=>{
+  t.addEventListener("click",()=>{
+    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+    document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
+    t.classList.add("active");
+    $("#view-"+t.dataset.view).classList.add("active");
+    if(t.dataset.view==="quiz") startQuizScreen();
+  });
+});
+
+/* ====== たんご帳 ====== */
+function renderList(){
+  $("#count").textContent = words.length + "語" + (saving ? "（ほぞん中…）" : "");
+  const q = ($("#search").value||"").toLowerCase().trim();
+  const shown = q ? words.filter(w => (w.en+" "+w.ja).toLowerCase().includes(q)) : words;
+  const list = $("#list");
+  if(!words.length){ list.innerHTML='<div class="empty">まだ たんごが ありません。<br>上のフォームから くわえてね！</div>'; return; }
+  if(!shown.length){ list.innerHTML='<div class="empty">見つかりませんでした。</div>'; return; }
+  list.innerHTML = shown.map((w)=>{
+    const realIdx = words.indexOf(w);
+    return `<div class="word">
+      <div class="txt">
+        <div class="en">${esc(w.en)}</div>
+        <div class="ja">${esc(w.ja)}</div>
+        ${w.ex?`<div class="ex">${esc(w.ex)}</div>`:""}
+      </div>
+      <button class="del" data-i="${realIdx}" aria-label="消す">✕</button>
+    </div>`;
+  }).join("");
+  list.querySelectorAll(".del").forEach(b=>b.addEventListener("click",()=>{
+    const i=+b.dataset.i;
+    words.splice(i,1); renderList(); saveToServer();
+  }));
+}
+
+function addWord(){
+  const en=$("#inEn").value.trim(), ja=$("#inJa").value.trim(), ex=$("#inEx").value.trim();
+  if(!en || !ja){ alert("英語と意味の りょうほうを 入力してね。"); return; }
+  // おなじ英語が すでにあれば 上書き
+  const exist = words.findIndex(w=>w.en.toLowerCase()===en.toLowerCase());
+  if(exist>=0){ words[exist]={en,ja,ex}; } else { words.unshift({en,ja,ex}); }
+  saveToServer();
+  $("#inEn").value=""; $("#inJa").value=""; $("#inEx").value="";
+  $("#inEn").focus();
+  renderList();
+}
+$("#addBtn").addEventListener("click",addWord);
+["inEn","inJa","inEx"].forEach(id=>$("#"+id).addEventListener("keydown",e=>{ if(e.key==="Enter") addWord(); }));
+$("#search").addEventListener("input",renderList);
+$("#clearBtn").addEventListener("click",()=>{
+  if(!words.length) return;
+  if(confirm("ぜんぶの たんごを 消しますか？（もとに もどせません）")){ words=[]; renderList(); saveToServer(); }
+});
+
+/* ====== クイズ ====== */
+function startQuizScreen(){
+  const area=$("#quizArea");
+  if(words.length<4){
+    area.innerHTML=`<div class="card quiz-start"><div class="ball">🏀</div>
+      <p>クイズをするには、たんごが <b>4こ いじょう</b> ひつようです。<br>いまは ${words.length}こ。もう少し くわえてね！</p></div>`;
+    return;
+  }
+  area.innerHTML=`<div class="card quiz-start">
+    <div class="ball">🏀</div>
+    <p>いまの たんご帳（${words.length}語）から、<b>5問</b>のクイズを出すよ！</p>
+    <button class="btn" id="startQ">クイズを はじめる</button>
+  </div>`;
+  $("#startQ").addEventListener("click",runQuiz);
+}
+
+function makeQuiz(n){
+  const qs = shuffle(words).slice(0, Math.min(n, words.length));
+  return qs.map(w=>{
+    // ダミーの選択肢を、意味がかぶらないように集める
+    const others = shuffle(words.filter(x=>x.ja!==w.ja)).map(x=>x.ja);
+    const distract=[]; 
+    for(const d of others){ if(!distract.includes(d) && distract.length<3) distract.push(d); }
+    const choices = shuffle([w.ja, ...distract]);
+    return { en:w.en, answer:w.ja, choices, ex:w.ex };
+  });
+}
+
+function runQuiz(){
+  const quiz = makeQuiz(5);
+  let i=0, correct=0;
+  const area=$("#quizArea");
+
+  function show(){
+    const q=quiz[i];
+    area.innerHTML=`<div class="qcard">
+      <div class="qprog">第${i+1}問 / ${quiz.length}問</div>
+      <div class="qword">${esc(q.en)}</div>
+      <div class="qask">意味は どれ？</div>
+      ${q.choices.map((c,j)=>`<button class="choice" data-j="${j}">${esc(c)}</button>`).join("")}
+      <div class="qex" id="qex"></div>
+      <div class="qnext" id="qnext"></div>
+    </div>`;
+    area.querySelectorAll(".choice").forEach(btn=>{
+      btn.addEventListener("click",()=>{
+        const chosen=btn.textContent;
+        area.querySelectorAll(".choice").forEach(b=>{
+          b.disabled=true;
+          if(b.textContent===q.answer) b.classList.add("correct");
+          if(b===btn && chosen!==q.answer) b.classList.add("wrong");
+        });
+        if(chosen===q.answer) correct++;
+        const ex=$("#qex");
+        ex.innerHTML = (chosen===q.answer?"⭕️ せいかい！":"❌ ざんねん…")+`　<b>${esc(q.en)}</b> ＝ ${esc(q.answer)}` + (q.ex?`<br>れい：${esc(q.ex)}`:"");
+        ex.classList.add("show");
+        const next=$("#qnext");
+        next.innerHTML = `<button class="btn" id="nextBtn">${i+1<quiz.length?"つぎの問題 →":"けっかを見る"}</button>`;
+        $("#nextBtn").addEventListener("click",()=>{ i++; if(i<quiz.length) show(); else result(); });
+      });
+    });
+  }
+  function result(){
+    const msg = correct===quiz.length?"パーフェクト！🎉":correct>=Math.ceil(quiz.length/2)?"いいちょうし！":"つぎは もっといける！";
+    area.innerHTML=`<div class="card result">
+      <div class="big">${correct} / ${quiz.length}</div>
+      <div class="msg">${msg}</div>
+      <button class="btn" id="again">もう一回 クイズ</button>
+      <button class="btn sub" id="toBook" style="margin-top:8px;">たんご帳を見る</button>
+    </div>`;
+    $("#again").addEventListener("click",runQuiz);
+    $("#toBook").addEventListener("click",()=>{ document.querySelector('.tab[data-view="book"]').click(); });
+  }
+  show();
+}
+
+// 起動時：サーバーから読み込む
+function showLoadingList(){ const l=$("#list"); if(l) l.innerHTML='<div class="empty">よみこみ中… 🏀</div>'; }
+showLoadingList();
+loadFromServer();
+</script>
+</body>
+</html>
