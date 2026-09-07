@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>バスケで学ぶ英語</title>
+<meta name="description" content="その日のバスケのニュースで、中学英語を楽しく復習。高校受験にも役立つ、やさしい英語学習サイト。" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Poppins:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#F5F3EE; --card:#FFFFFF; --ink:#1B2B3A; --ink-soft:#4C5D6B; --ink-faint:#8FA0AC;
+    --orange:#E8622C; --orange-deep:#C74E1E; --navy:#12233A; --amber:#F2A83B;
+    --line:#E7E2D8; --green:#2E9E6B; --red:#D6473B;
+    --shadow:0 2px 4px rgba(27,43,58,.06), 0 10px 30px rgba(27,43,58,.08);
+    --maxw:680px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:var(--bg);color:var(--ink);font-family:"Noto Sans JP",-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.9;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 18px 80px;}
+
+  /* ヘッダー */
+  .top{background:var(--navy);color:#fff;padding:18px 0 16px;margin-bottom:22px;position:relative;overflow:hidden;}
+  .top::after{content:"🏀";position:absolute;right:-10px;top:-14px;font-size:90px;opacity:.12;transform:rotate(-10deg);}
+  .top .inner{max-width:var(--maxw);margin:0 auto;padding:0 18px;position:relative;z-index:1;}
+  .top .eyebrow{font-family:"Poppins",sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);margin-bottom:4px;}
+  .top h1{font-family:"Baloo 2",sans-serif;font-weight:700;font-size:28px;margin:0;letter-spacing:.02em;}
+  .top .date{font-family:"Poppins",sans-serif;font-size:13px;color:#B9C6D1;margin-top:4px;}
+  .top .tools{position:absolute;right:18px;top:6px;display:flex;gap:8px;z-index:2;}
+  .icon-btn{appearance:none;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);width:38px;height:38px;border-radius:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;}
+  .icon-btn:hover{background:rgba(255,255,255,.18);}
+  .icon-btn svg{width:18px;height:18px;}
+
+  /* セクション見出し */
+  .sec{margin:26px 0 12px;display:flex;align-items:center;gap:9px;}
+  .sec .num{background:var(--orange);color:#fff;font-family:"Baloo 2",sans-serif;font-weight:700;width:28px;height:28px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+  .sec h2{font-family:"Baloo 2",sans-serif;font-weight:700;font-size:19px;margin:0;color:var(--navy);}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 18px;box-shadow:var(--shadow);}
+
+  /* ニュース */
+  .news .head-en{font-family:"Poppins",sans-serif;font-weight:600;font-size:20px;line-height:2.5;color:var(--navy);margin:0 0 6px;}
+  .news .head-ja{font-size:14px;color:var(--ink-soft);margin:0 0 12px;font-weight:500;}
+  .news .body{font-size:15px;}
+  .news .src{margin-top:12px;font-family:"Poppins",sans-serif;font-size:12px;color:var(--ink-faint);}
+  .news .src a{color:var(--orange);text-decoration:none;border-bottom:1px solid var(--line);}
+
+  /* 単語 */
+  .word{border:1px solid var(--line);border-radius:13px;padding:14px;margin-bottom:11px;background:var(--card);box-shadow:var(--shadow);}
+  .word .en{font-family:"Poppins",sans-serif;font-weight:600;font-size:19px;color:var(--orange-deep);line-height:2.3;}
+  .word .en .say{font-size:14px;opacity:.55;margin-left:2px;vertical-align:middle;}
+  /* ページ内のすべての発音対応の英単語（ふりがな付きの ruby）に共通のタップ見た目 */
+  ruby.say-word{cursor:pointer;user-select:none;border-radius:4px;padding:0 1px;}
+  ruby.say-word:active{background:rgba(232,98,44,.14);}
+  ruby{ruby-position:over;}
+  rt{font-family:"Noto Sans JP",sans-serif;font-weight:500;font-size:.52em;color:var(--ink-faint);line-height:1;user-select:none;}
+  .word .ja{font-weight:700;font-size:15px;margin:2px 0 8px;}
+  .word .ex{background:var(--bg);border-radius:9px;padding:9px 11px;font-size:14px;}
+  .word .ex .e{font-family:"Poppins",sans-serif;font-style:italic;color:var(--navy);margin:0 0 2px;line-height:2.3;}
+  .word .ex .j{color:var(--ink-soft);font-size:13px;margin:0;}
+  .word .note{font-size:13px;color:var(--ink-soft);margin:9px 0 0;}
+
+  /* 文法 */
+  .grammar{background:linear-gradient(180deg,#FFF6EC,#FFFFFF);border:1px solid #F3E2CB;}
+  .grammar .title{font-family:"Baloo 2",sans-serif;font-weight:700;font-size:17px;color:var(--orange-deep);margin:0 0 8px;}
+  .grammar .explain{font-size:15px;margin:0 0 12px;}
+  .grammar .ex{border-left:3px solid var(--amber);padding:6px 0 6px 12px;margin:8px 0;}
+  .grammar .ex .e{font-family:"Poppins",sans-serif;font-style:italic;color:var(--navy);margin:0;line-height:2.3;}
+  .grammar .ex .j{font-size:13px;color:var(--ink-soft);margin:2px 0 0;}
+
+  /* 語形変化 */
+  .forms{width:100%;border-collapse:collapse;font-size:14px;}
+  .forms th,.forms td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);}
+  .forms th{font-size:12px;color:var(--ink-faint);font-weight:500;}
+  .forms .base{font-family:"Poppins",sans-serif;font-weight:600;color:var(--navy);line-height:2.1;}
+  .forms .change{font-family:"Poppins",sans-serif;font-weight:600;color:var(--orange-deep);line-height:2.1;}
+  .forms .note{color:var(--ink-soft);font-size:12.5px;}
+
+  /* クイズ */
+  .quiz-q{border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;background:var(--card);box-shadow:var(--shadow);}
+  .quiz-q .qnum{font-family:"Baloo 2",sans-serif;font-weight:700;color:var(--orange);font-size:14px;margin-bottom:6px;}
+  .quiz-q .qtext{font-weight:700;font-size:15.5px;margin:0 0 12px;}
+  .choice{display:block;width:100%;text-align:left;background:var(--bg);border:2px solid var(--line);border-radius:11px;padding:11px 14px;margin-bottom:8px;font-family:inherit;font-size:15px;cursor:pointer;transition:all .12s;color:var(--ink);line-height:2.3;}
+  .choice:hover:not(:disabled){border-color:var(--orange);}
+  .choice:disabled{cursor:default;}
+  .choice.correct{border-color:var(--green);background:#E9F7F0;color:#1c6b48;font-weight:700;}
+  .choice.wrong{border-color:var(--red);background:#FBEBE9;color:#a12c22;}
+  .explain{margin-top:10px;font-size:13.5px;color:var(--ink-soft);background:var(--bg);border-radius:9px;padding:10px 12px;display:none;}
+  .explain.show{display:block;}
+  .explain b{color:var(--navy);}
+  .score{text-align:center;font-family:"Baloo 2",sans-serif;font-weight:700;font-size:20px;color:var(--navy);background:#FFF6EC;border:1px solid #F3E2CB;border-radius:14px;padding:16px;margin-top:6px;display:none;}
+  .score.show{display:block;}
+  .score .big{color:var(--orange);font-size:30px;}
+
+  /* まとめ */
+  .takeaway{background:var(--navy);color:#EAF0F5;border-radius:16px;padding:20px;margin-top:8px;font-size:15px;}
+  .takeaway .lbl{font-family:"Baloo 2",sans-serif;font-weight:700;color:var(--amber);font-size:15px;margin-bottom:6px;}
+
+  /* 履歴 */
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:20px;box-shadow:var(--shadow);display:none;}
+  .panel.open{display:block;}
+  .panel h3{font-family:"Baloo 2",sans-serif;font-size:14px;color:var(--orange);margin:0 0 10px;}
+  .hist{display:flex;flex-direction:column;gap:2px;padding:9px 10px;border-radius:10px;cursor:pointer;}
+  .hist:hover{background:var(--bg);}
+  .hist .d{font-family:"Poppins",sans-serif;font-size:11px;color:var(--orange);}
+  .hist .t{font-family:"Poppins",sans-serif;font-size:14px;color:var(--navy);}
+
+  .loading{text-align:center;padding:60px 20px;}
+  .ball{font-size:44px;animation:bounce 1s infinite ease-in-out;}
+  @keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-16px);}}
+  .loading p{font-family:"Baloo 2",sans-serif;color:var(--ink-soft);margin-top:10px;}
+
+  footer{max-width:var(--maxw);margin:36px auto 0;padding:20px 18px 40px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-faint);}
+
+  @media (prefers-reduced-motion:reduce){.ball{animation:none;}*{transition:none!important;}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="tools">
+    <a class="icon-btn" href="hoops-vocab.html" aria-label="単語帳" style="text-decoration:none;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+    </a>
+    <button class="icon-btn" id="btnHist" aria-label="これまで">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l3 2"/></svg>
+    </button>
+    <button class="icon-btn" id="btnReload" aria-label="読み込み直す">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+    </button>
+  </div>
+  <div class="inner">
+    <div class="eyebrow">Hoops English</div>
+    <h1>バスケで学ぶ英語</h1>
+    <div class="date" id="date">—</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="panel" id="histPanel">
+    <h3>これまでのレッスン</h3>
+    <div id="histList"></div>
+  </section>
+
+  <main id="app" aria-live="polite">
+    <div class="loading"><div class="ball">🏀</div><p>今日のレッスンを よみこみ中…</p></div>
+  </main>
+</div>
+
+<footer>
+  このサイトは、その日のバスケのニュースをもとにした、中学英語の学習ページです。ニュースの著作権は各メディアにあります。くわしくは元記事を見てください。
+</footer>
+
+<script>
+/* ▼ ここに、デプロイした Worker のURLを入れる（例：https://hoops-english.＜サブドメイン＞.workers.dev） */
+const WORKER_URL = "https://hoops-english.g504-aniki-gera.workers.dev";
+
+const $ = s => document.querySelector(s);
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+/* 「word{カタカナ}」形式の記法を <ruby> タグ（英語の上にカタカナ）に変換する */
+function rubify(s){
+  if(s==null) return "";
+  const str=String(s);
+  const re=/([A-Za-z0-9'’\-]+)\{([^}]+)\}/g;
+  let out="", last=0, m;
+  while((m=re.exec(str))){
+    out+=esc(str.slice(last,m.index));
+    const w=m[1];
+    out+=`<ruby class="say-word" data-say="${esc(w)}">${esc(w)}<rt>${esc(m[2])}</rt></ruby>`;
+    last=re.lastIndex;
+  }
+  out+=esc(str.slice(last));
+  return out;
+}
+/* 「word{カタカナ}」記法から、読み上げ用のプレーンな英語だけを取り出す */
+function plainEn(s){ return String(s==null?"":s).replace(/\{[^}]*\}/g,""); }
+
+/* 単語だけ切り離して読むと発音がズレる語（例：the → 文中では弱形「ザ」だが、単独だと強形「ジー」になりがち）を、
+   このカタカナ表記に合う読み方になるよう補正する */
+const PRON_FIX={ "the":"thuh", "a":"uh", "an":"uhn" };
+
+/* 英単語をタップしたときに読み上げる（ブラウザ内蔵の音声合成・無料）
+   ※ボイスは明示的に選ばず、ブラウザ・端末のおまかせ（lang="en-US"のみ指定）にする。
+     端末の音声一覧から個別に選ぶと、機種によっては英語データが不十分なボイスに
+     当たってしまい、かえってカタカナ読みのような不自然な発音になることがあるため。 */
+function speak(text){
+  if(!text) return;
+  if(!("speechSynthesis" in window)){ return; }
+  const say=PRON_FIX[String(text).toLowerCase()] || text;
+  try{
+    window.speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(say);
+    u.lang="en-US";
+    u.rate=0.85;
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+function pretty(s){ if(!s) return "—"; const [y,m,d]=s.split("-").map(Number); const w=["日","月","火","水","木","金","土"][new Date(y,m-1,d).getDay()]; return `${y}年${m}月${d}日（${w}）`; }
+
+async function loadToday(){
+  showLoading();
+  try{
+    const r = await fetch(WORKER_URL+"/today",{cache:"no-store"});
+    if(!r.ok){ const e=await r.json().catch(()=>({})); throw new Error(e.error||("HTTP "+r.status)); }
+    render(await r.json());
+  }catch(err){ renderErr(err); }
+}
+async function loadDate(d){
+  showLoading();
+  try{ const r=await fetch(WORKER_URL+"/lesson?date="+encodeURIComponent(d),{cache:"no-store"}); if(!r.ok) throw new Error("HTTP "+r.status); render(await r.json()); $("#histPanel").classList.remove("open"); }
+  catch(err){ renderErr(err); }
+}
+async function loadHist(){
+  try{
+    const r=await fetch(WORKER_URL+"/list",{cache:"no-store"}); const idx=r.ok?await r.json():[];
+    const el=$("#histList");
+    if(!idx.length){ el.innerHTML='<div style="color:#8FA0AC;font-size:13px;padding:4px;">まだありません。</div>'; return; }
+    el.innerHTML=idx.map(x=>`<div class="hist" data-d="${esc(x.date)}"><span class="d">${esc(pretty(x.date))}</span><span class="t">${rubify(x.headline_en||"")}</span></div>`).join("");
+    el.querySelectorAll(".hist").forEach(n=>n.addEventListener("click",()=>loadDate(n.dataset.d)));
+  }catch(e){}
+}
+function showLoading(){ $("#app").innerHTML='<div class="loading"><div class="ball">🏀</div><p>よみこみ中…</p></div>'; }
+function renderErr(err){ $("#app").innerHTML=`<div class="card"><b>まだ準備中です。</b><br><span style="color:#8FA0AC;font-size:13px;">少し時間をおいて、もう一度ひらいてみてね。（${esc(err&&err.message?err.message:err)}）</span></div>`; }
+
+function render(o){
+  $("#date").textContent = pretty(o.date);
+  const words=(o.words||[]).map(w=>`
+    <div class="word">
+      <div class="en">${rubify(w.en)} <span class="say">🔊</span></div>
+      <div class="ja">${rubify(w.ja)}</div>
+      ${w.example_en?`<div class="ex"><p class="e">${rubify(w.example_en)}</p>${w.example_ja?`<p class="j">${rubify(w.example_ja)}</p>`:""}</div>`:""}
+      ${w.note_ja?`<p class="note">💡 ${rubify(w.note_ja)}</p>`:""}
+    </div>`).join("");
+
+  const g=o.grammar||{};
+  const gEx=(g.examples||[]).map(e=>`<div class="ex"><p class="e">${rubify(e.en)}</p><p class="j">${rubify(e.ja)}</p></div>`).join("");
+
+  const forms=(o.word_forms||[]).map(f=>`<tr><td class="base">${rubify(f.base)}</td><td class="change">${rubify(f.change)}</td><td class="note">${rubify(f.note_ja)}</td></tr>`).join("");
+
+  const quiz=(o.quiz||[]).map((q,i)=>{
+    const ch=(q.choices||[]).map((c,j)=>`<button class="choice" data-q="${i}" data-c="${j}">${rubify(c)}</button>`).join("");
+    return `<div class="quiz-q" data-ans="${q.answer}">
+      <div class="qnum">第${i+1}問</div>
+      <p class="qtext">${rubify(q.q)}</p>
+      ${ch}
+      <div class="explain" id="ex-${i}"><b>解説：</b>${rubify(q.explain_ja||"")}</div>
+    </div>`;
+  }).join("");
+
+  $("#app").innerHTML=`
+    <div class="sec"><span class="num">1</span><h2>今日のニュース</h2></div>
+    <div class="card news">
+      <p class="head-en">${rubify(o.headline_en)}</p>
+      ${o.headline_ja?`<p class="head-ja">${rubify(o.headline_ja)}</p>`:""}
+      <div class="body">${rubify(o.news_ja)}</div>
+      <div class="src">出典：${rubify(o.source_name||"")} ${o.source_url?`・<a href="${esc(o.source_url)}" target="_blank" rel="noopener">元記事 ↗</a>`:""}</div>
+    </div>
+
+    <div class="sec"><span class="num">2</span><h2>今日の英単語</h2></div>
+    ${words||'<div class="card">単語が取得できませんでした。</div>'}
+
+    <div class="sec"><span class="num">3</span><h2>今日の文法</h2></div>
+    <div class="card grammar">
+      ${g.title_ja?`<p class="title">${rubify(g.title_ja)}</p>`:""}
+      ${g.explain_ja?`<p class="explain-txt explain-open">${rubify(g.explain_ja)}</p>`:""}
+      ${gEx}
+    </div>
+
+    <div class="sec"><span class="num">4</span><h2>語形変化の復習</h2></div>
+    <div class="card">
+      <table class="forms"><thead><tr><th>もとの形</th><th>変化した形</th><th>なに？</th></tr></thead><tbody>${forms}</tbody></table>
+    </div>
+
+    <div class="sec"><span class="num">5</span><h2>クイズにチャレンジ！</h2></div>
+    ${quiz}
+    <div class="score" id="score"></div>
+
+    <div class="sec"><span class="num">6</span><h2>今日のひとこと</h2></div>
+    <div class="takeaway"><div class="lbl">🏀 がんばれ！</div>${rubify(o.takeaway_ja||"")}</div>
+  `;
+  // grammar の explain クラス名を調整（CSSの .explain と衝突しないように上書き）
+  document.querySelectorAll(".explain-open").forEach(el=>{ el.classList.remove("explain"); el.style.fontSize="15px"; el.style.margin="0 0 12px"; });
+
+  document.querySelectorAll(".say-word").forEach(el=>{
+    el.addEventListener("click",(e)=>{
+      e.stopPropagation(); // クイズの選択肢内の単語をタップしても、回答してしまわないようにする
+      speak(el.dataset.say);
+    });
+  });
+
+  wireQuiz(o.quiz||[]);
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function wireQuiz(quiz){
+  let answered=0, correct=0;
+  document.querySelectorAll(".choice").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const qi=+btn.dataset.q, ci=+btn.dataset.c;
+      const qBox=btn.closest(".quiz-q");
+      if(qBox.dataset.done) return;
+      qBox.dataset.done="1";
+      const ans=+qBox.dataset.ans;
+      qBox.querySelectorAll(".choice").forEach((b,j)=>{
+        b.disabled=true;
+        if(j===ans) b.classList.add("correct");
+        if(j===ci && ci!==ans) b.classList.add("wrong");
+      });
+      $("#ex-"+qi).classList.add("show");
+      answered++; if(ci===ans) correct++;
+      if(answered===quiz.length){
+        const sc=$("#score");
+        sc.innerHTML=`けっか：<span class="big">${correct} / ${quiz.length}</span> 問せいかい！${correct===quiz.length?" 🎉 パーフェクト！":correct>=quiz.length/2?" いいちょうし！":" 次はもっといける！"}`;
+        sc.classList.add("show");
+      }
+    });
+  });
+}
+
+document.getElementById("btnHist").addEventListener("click",()=>{ $("#histPanel").classList.toggle("open"); loadHist(); });
+document.getElementById("btnReload").addEventListener("click",loadToday);
+loadToday();
+</script>
+</body>
+</html>
