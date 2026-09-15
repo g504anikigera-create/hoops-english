@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>アクセス履歴｜バスケで学ぶ英語</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Poppins:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#F5F3EE; --card:#FFFFFF; --ink:#1B2B3A; --ink-soft:#4C5D6B; --ink-faint:#8FA0AC;
+    --orange:#E8622C; --orange-deep:#C74E1E; --navy:#12233A; --amber:#F2A83B;
+    --line:#E7E2D8; --green:#2E9E6B; --red:#D6473B;
+    --shadow:0 2px 4px rgba(27,43,58,.06), 0 10px 30px rgba(27,43,58,.08);
+    --maxw:640px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:var(--bg);color:var(--ink);font-family:"Noto Sans JP",-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 16px 80px;}
+
+  .top{background:var(--navy);color:#fff;padding:16px 0;margin-bottom:16px;position:relative;overflow:hidden;}
+  .top::after{content:"🔎";position:absolute;right:-8px;top:-12px;font-size:80px;opacity:.12;transform:rotate(-10deg);}
+  .top .inner{max-width:var(--maxw);margin:0 auto;padding:0 16px;position:relative;z-index:1;}
+  .top .eyebrow{font-family:"Poppins",sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);}
+  .top h1{font-family:"Baloo 2",sans-serif;font-weight:700;font-size:24px;margin:2px 0 0;}
+  .top a.back{color:#B9C6D1;font-size:12px;text-decoration:none;font-family:"Poppins",sans-serif;}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--shadow);margin-bottom:14px;}
+
+  label{display:block;font-size:13px;color:var(--ink-soft);font-weight:500;margin:8px 0 4px;}
+  input[type=text],input[type=password]{width:100%;border:2px solid var(--line);border-radius:11px;padding:11px 13px;font-size:16px;font-family:inherit;color:var(--ink);}
+  input[type=text]:focus,input[type=password]:focus{outline:none;border-color:var(--orange);}
+  .btn{appearance:none;border:none;background:var(--orange);color:#fff;font-family:"Baloo 2",sans-serif;font-weight:700;font-size:16px;padding:12px 18px;border-radius:12px;cursor:pointer;width:100%;margin-top:12px;}
+  .btn:hover{background:var(--orange-deep);}
+  .btn.ghost{background:transparent;color:var(--ink-faint);border:none;font-size:13px;width:auto;padding:6px;margin:0;text-decoration:underline;}
+
+  .stats{display:flex;gap:10px;margin-bottom:14px;}
+  .stat{flex:1;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 10px;text-align:center;box-shadow:var(--shadow);}
+  .stat .num{font-family:"Baloo 2",sans-serif;font-weight:700;font-size:26px;color:var(--orange-deep);}
+  .stat .lbl{font-size:11px;color:var(--ink-faint);margin-top:2px;}
+
+  .daygroup{margin-bottom:16px;}
+  .daytitle{font-family:"Baloo 2",sans-serif;font-weight:700;color:var(--navy);font-size:14px;margin:0 2px 6px;display:flex;justify-content:space-between;align-items:center;}
+  .daytitle .n{color:var(--ink-faint);font-family:"Noto Sans JP",sans-serif;font-weight:500;font-size:12px;}
+  .visit{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:10px 13px;margin-bottom:7px;background:var(--card);}
+  .visit .time{font-family:"Poppins",sans-serif;font-weight:600;font-size:15px;color:var(--ink);width:56px;flex-shrink:0;}
+  .visit .device{font-size:13px;color:var(--ink-soft);background:var(--bg);border-radius:8px;padding:3px 9px;}
+  .empty{text-align:center;color:var(--ink-faint);font-size:14px;padding:24px 10px;}
+  .note{font-size:12px;color:var(--ink-faint);margin:0 2px 14px;line-height:1.7;}
+  .err{color:var(--red);font-size:13px;margin-top:8px;}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="inner">
+    <div class="eyebrow">Access Log</div>
+    <h1>アクセス履歴</h1>
+    <a class="back" href="index.html">← バスケ英語トップにもどる</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="card" id="loginCard">
+    <label>合言葉</label>
+    <input type="password" id="keyInput" placeholder="合言葉を入力" autocomplete="off" />
+    <button class="btn" id="loginBtn">表示する</button>
+    <div class="err" id="loginErr" style="display:none;"></div>
+  </section>
+
+  <div id="mainArea" style="display:none;">
+    <p class="note">ページが開かれた日時と、開いた端末のおおまかな種類（iPhone / Android / PC など）だけを記録しています。IPアドレスや個人を特定する情報は保存していません。</p>
+    <div class="stats">
+      <div class="stat"><div class="num" id="statToday">0</div><div class="lbl">今日</div></div>
+      <div class="stat"><div class="num" id="stat7">0</div><div class="lbl">直近7日</div></div>
+      <div class="stat"><div class="num" id="statTotal">0</div><div class="lbl">記録件数</div></div>
+    </div>
+    <button class="btn ghost" id="refreshBtn">↻ 更新する</button>
+    <div id="list" style="margin-top:10px;"></div>
+  </div>
+</div>
+
+<script>
+const WORKER_URL = "https://hoops-english.g504-aniki-gera.workers.dev";
+const STORE_KEY = "hoops_visits_key";
+
+function $(s){ return document.querySelector(s); }
+
+function todayJSTStr(){
+  const d = new Date(Date.now() + 9*3600*1000);
+  return d.toISOString().slice(0,10);
+}
+
+async function loadVisits(key){
+  const r = await fetch(WORKER_URL + "/visits?key=" + encodeURIComponent(key), { cache:"no-store" });
+  if (!r.ok) {
+    if (r.status === 401) throw new Error("合言葉が違います");
+    throw new Error("HTTP " + r.status);
+  }
+  return await r.json();
+}
+
+function render(list){
+  const today = todayJSTStr();
+  const sevenAgo = new Date(Date.now() + 9*3600*1000 - 7*24*3600*1000).toISOString().slice(0,10);
+
+  const todayCount = list.filter(v => (v.at||"").slice(0,10) === today).length;
+  const week = list.filter(v => (v.at||"").slice(0,10) >= sevenAgo).length;
+  $("#statToday").textContent = todayCount;
+  $("#stat7").textContent = week;
+  $("#statTotal").textContent = list.length;
+
+  const byDay = {};
+  for (const v of list){
+    const day = (v.at||"").slice(0,10) || "不明";
+    (byDay[day] = byDay[day] || []).push(v);
+  }
+  const days = Object.keys(byDay).sort().reverse();
+
+  if (!days.length){
+    $("#list").innerHTML = '<div class="empty">まだアクセスの記録がありません</div>';
+    return;
+  }
+
+  $("#list").innerHTML = days.map(day => {
+    const items = byDay[day];
+    const rows = items.map(v => {
+      const time = (v.at||"").slice(11,16) || "--:--";
+      const device = esc(v.device || "不明");
+      return `<div class="visit"><span class="time">${time}</span><span class="device">${device}</span></div>`;
+    }).join("");
+    return `<div class="daygroup"><div class="daytitle"><span>${esc(day)}</span><span class="n">${items.length}回</span></div>${rows}</div>`;
+  }).join("");
+}
+
+function esc(s){
+  return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+
+async function tryShow(key){
+  $("#loginErr").style.display = "none";
+  try{
+    const list = await loadVisits(key);
+    localStorage.setItem(STORE_KEY, key);
+    $("#loginCard").style.display = "none";
+    $("#mainArea").style.display = "block";
+    render(list);
+  }catch(e){
+    $("#loginErr").textContent = e.message || "読み込みに失敗しました";
+    $("#loginErr").style.display = "block";
+  }
+}
+
+$("#loginBtn").addEventListener("click", () => {
+  const key = $("#keyInput").value.trim();
+  if (key) tryShow(key);
+});
+$("#keyInput").addEventListener("keydown", e => { if (e.key === "Enter") $("#loginBtn").click(); });
+
+$("#refreshBtn").addEventListener("click", () => {
+  const key = localStorage.getItem(STORE_KEY);
+  if (key) tryShow(key);
+});
+
+(function init(){
+  const urlKey = new URLSearchParams(location.search).get("key");
+  const savedKey = urlKey || localStorage.getItem(STORE_KEY);
+  if (savedKey){
+    $("#keyInput").value = savedKey;
+    tryShow(savedKey);
+  }
+})();
+</script>
+</body>
+</html>
